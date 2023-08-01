@@ -1,21 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import useAuth from '../hooks/useAuth'
 import useProyectos from '../hooks/useProyectos'
+import ModalCerrarSesion from './ModalCerrarSesion'
 
 export default function Header () {
 
     const [navbar, setNavbar] = useState(false)
-    const { cerrarSesionAuth } = useAuth()
-    const { cerrarSesionProyectos } = useProyectos()
-
-    const handleCerrarSesion = () => {
-
-        cerrarSesionAuth()
-        cerrarSesionProyectos()
-        localStorage.removeItem('token')
-
-    }
+    const { handleModalCerrarSesion } = useProyectos()
 
     return (
         <header className=" sticky w-full bg-white shadow">
@@ -79,12 +70,13 @@ export default function Header () {
 
                             <li className='text-center'>
                                 <button
-                                    onClick={handleCerrarSesion}
+                                    onClick={handleModalCerrarSesion}
                                     type="button"
                                     className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 transition-colors"
                                 >
                         Cerrar Sesión
                                 </button>
+                                <ModalCerrarSesion />
                             </li>
                         </ul>
                     </div>

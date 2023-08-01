@@ -20,8 +20,8 @@ export default function ProyectoProvider ({ children }) {
     const [loadingModal, setLoadingModal] = useState(false)
     const [modalFormularioTarea, setModalFormularioTarea] = useState(false)
     const [modalEliminarTarea, setModalEliminarTarea] = useState(false)
-    const [modalEliminarColaborador, setModalEliminarColaborador] =
-        useState(false)
+    const [modalEliminarColaborador, setModalEliminarColaborador] = useState(false)
+    const [modalCerrarSesion, setModalCerrarSesion] = useState(false)
     const [buscador, setBuscador] = useState(false)
 
     useEffect(() => {
@@ -30,6 +30,7 @@ export default function ProyectoProvider ({ children }) {
 
             try {
 
+                setLoading(true)
                 const token = localStorage.getItem('token')
 
                 if (!token) return
@@ -44,7 +45,12 @@ export default function ProyectoProvider ({ children }) {
                 const { data } = await clienteAxios.get('/proyectos', config)
                 setProyectos(data)
 
-            } catch (error) {}
+            } catch (error) {
+
+                console.log(error)
+
+            }
+            setLoading(false)
 
         }
 
@@ -374,6 +380,12 @@ export default function ProyectoProvider ({ children }) {
 
     }
 
+    const handleModalCerrarSesion = () => {
+
+        setModalCerrarSesion(!modalCerrarSesion)
+
+    }
+
     const submitColaborador = async (email) => {
 
         setLoading(true)
@@ -585,7 +597,9 @@ export default function ProyectoProvider ({ children }) {
                 eliminarTareaProyecto,
                 editarTareaProyecto,
                 completarTareaProyecto,
-                cerrarSesionProyectos
+                cerrarSesionProyectos,
+                handleModalCerrarSesion,
+                modalCerrarSesion
             }}
         >
             {children}
